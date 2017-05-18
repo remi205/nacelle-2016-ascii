@@ -36,9 +36,9 @@ int InitConsole(UART_HandleTypeDef * SerialPort, COMMAND_FUNC fn )
   osThreadDef(ThreadSerialRx, (os_pthread)ThreadConsole, osPriorityLow, 0, 512);
 
   if ( osThreadCreate (osThread(ThreadSerialRx), (void *)fn) == NULL)
-	  return 1;
-  else
 	  return 0;
+  else
+	  return 1;
 }
 
 void ThreadConsole(COMMAND_FUNC fn)
