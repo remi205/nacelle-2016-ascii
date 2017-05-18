@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-December-2016
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   HAL module driver.
   *          This is the common part of the HAL initialization
   *
@@ -70,18 +70,18 @@
   * @{
   */
 /**
- * @brief STM32F3xx HAL Driver version number V1.4.0
+ * @brief STM32F3xx HAL Driver version number V1.2.1
    */
-#define __STM32F3xx_HAL_VERSION_MAIN   (0x01U) /*!< [31:24] main version */
-#define __STM32F3xx_HAL_VERSION_SUB1   (0x04U) /*!< [23:16] sub1 version */
-#define __STM32F3xx_HAL_VERSION_SUB2   (0x00U) /*!< [15:8]  sub2 version */
-#define __STM32F3xx_HAL_VERSION_RC     (0x00U) /*!< [7:0]  release candidate */
-#define __STM32F3xx_HAL_VERSION         ((__STM32F3xx_HAL_VERSION_MAIN << 24U)\
-                                        |(__STM32F3xx_HAL_VERSION_SUB1 << 16U)\
-                                        |(__STM32F3xx_HAL_VERSION_SUB2 << 8U )\
+#define __STM32F3xx_HAL_VERSION_MAIN   (0x01) /*!< [31:24] main version */
+#define __STM32F3xx_HAL_VERSION_SUB1   (0x02) /*!< [23:16] sub1 version */
+#define __STM32F3xx_HAL_VERSION_SUB2   (0x01) /*!< [15:8]  sub2 version */
+#define __STM32F3xx_HAL_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
+#define __STM32F3xx_HAL_VERSION         ((__STM32F3xx_HAL_VERSION_MAIN << 24)\
+                                        |(__STM32F3xx_HAL_VERSION_SUB1 << 16)\
+                                        |(__STM32F3xx_HAL_VERSION_SUB2 << 8 )\
                                         |(__STM32F3xx_HAL_VERSION_RC))
 
-#define IDCODE_DEVID_MASK    (0x00000FFFU)
+#define IDCODE_DEVID_MASK    ((uint32_t)0x00000FFF)
 /**
   * @}
   */
@@ -154,7 +154,7 @@ __IO uint32_t uwTick;
 HAL_StatusTypeDef HAL_Init(void)
 {
   /* Configure Flash prefetch */
-#if (PREFETCH_ENABLE != 0U)
+#if (PREFETCH_ENABLE != 0)
   __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
 #endif /* PREFETCH_ENABLE */
 
@@ -237,10 +237,10 @@ __weak void HAL_MspDeInit(void)
 __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
 {
   /*Configure the SysTick to have interrupt in 1ms time basis*/
-  HAL_SYSTICK_Config(SystemCoreClock / 1000U);
+  HAL_SYSTICK_Config(SystemCoreClock / 1000);
  
   /*Configure the SysTick IRQ priority */
-  HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority ,0U);
+  HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority ,0);
 
    /* Return function status */
   return HAL_OK;
@@ -367,7 +367,7 @@ uint32_t HAL_GetHalVersion(void)
   */
 uint32_t HAL_GetREVID(void)
 {
-  return((DBGMCU->IDCODE) >> 16U);
+  return((DBGMCU->IDCODE) >> 16);
 }
 
 /**

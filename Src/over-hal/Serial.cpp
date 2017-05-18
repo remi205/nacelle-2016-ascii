@@ -34,7 +34,8 @@ int InitConsole(UART_HandleTypeDef * SerialPort, COMMAND_FUNC fn )
   
   // le thread(
   osThreadDef(ThreadSerialRx, (os_pthread)ThreadConsole, osPriorityLow, 0, 512);
-  if ( osThreadCreate (osThread(ThreadSerialRx), 0) == NULL)
+
+  if ( osThreadCreate (osThread(ThreadSerialRx), (void *)fn) == NULL)
 	  return 1;
   else
 	  return 0;
@@ -43,7 +44,7 @@ int InitConsole(UART_HandleTypeDef * SerialPort, COMMAND_FUNC fn )
 void ThreadConsole(COMMAND_FUNC fn)
 {
   int ret = 0;
-  COMMAND_FUNC Service;
+  COMMAND_FUNC Service = fn;
 
   osSemaphoreWait(SemaphoreIncommingString, osWaitForever);
      

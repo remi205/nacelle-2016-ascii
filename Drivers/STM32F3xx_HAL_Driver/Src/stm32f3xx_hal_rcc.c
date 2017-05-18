@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_rcc.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-December-2016
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   RCC HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Reset and Clock Control (RCC) peripheral:
@@ -76,7 +76,7 @@
   *
   ******************************************************************************  
 */
-
+  
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
 
@@ -120,10 +120,10 @@
 /** @defgroup RCC_Private_Variables RCC Private Variables
   * @{
   */
-const uint8_t aPLLMULFactorTable[16] = { 2U,  3U,  4U,  5U,  6U,  7U,  8U,  9U,
-                                       10U, 11U, 12U, 13U, 14U, 15U, 16U, 16U};
-const uint8_t aPredivFactorTable[16] = { 1U, 2U,  3U,  4U,  5U,  6U,  7U,  8U,
-                                         9U,10U, 11U, 12U, 13U, 14U, 15U, 16U};
+const uint8_t aPLLMULFactorTable[16] = { 2,  3,  4,  5,  6,  7,  8,  9,
+                                       10, 11, 12, 13, 14, 15, 16, 16};
+const uint8_t aPredivFactorTable[16] = { 1, 2,  3,  4,  5,  6,  7,  8,
+                                         9,10, 11, 12, 13, 14, 15, 16};
 /**
   * @}
   */
@@ -244,7 +244,7 @@ void HAL_RCC_DeInit(void)
   
   /* Reset HSEBYP bit */
   CLEAR_BIT(RCC->CR, RCC_CR_HSEBYP);
-
+  
   /* Reset CFGR register */
   CLEAR_REG(RCC->CFGR);
   
@@ -277,18 +277,18 @@ void HAL_RCC_DeInit(void)
   */
 HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
 {
-   uint32_t tickstart = 0U;
+   uint32_t tickstart = 0;
   
   /* Check the parameters */
   assert_param(RCC_OscInitStruct != NULL);
   assert_param(IS_RCC_OSCILLATORTYPE(RCC_OscInitStruct->OscillatorType));
-
+  
   /*------------------------------- HSE Configuration ------------------------*/ 
   if(((RCC_OscInitStruct->OscillatorType) & RCC_OSCILLATORTYPE_HSE) == RCC_OSCILLATORTYPE_HSE)
   {
     /* Check the parameters */
     assert_param(IS_RCC_HSE(RCC_OscInitStruct->HSEState));
-
+        
     /* When the HSE is used as system clock or clock source for PLL in these cases it is not allowed to be disabled */
     if((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_SYSCLKSOURCE_STATUS_HSE) 
        || ((__HAL_RCC_GET_SYSCLK_SOURCE() == RCC_SYSCLKSOURCE_STATUS_PLLCLK) && (__HAL_RCC_GET_PLL_OSCSOURCE() == RCC_PLLSOURCE_HSE)))
@@ -627,7 +627,7 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
   */
 HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, uint32_t FLatency)
 {
-  uint32_t tickstart = 0U;
+  uint32_t tickstart = 0;
   
   /* Check the parameters */
   assert_param(RCC_ClkInitStruct != NULL);
@@ -752,7 +752,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
   if(((RCC_ClkInitStruct->ClockType) & RCC_CLOCKTYPE_PCLK2) == RCC_CLOCKTYPE_PCLK2)
   {
     assert_param(IS_RCC_PCLK(RCC_ClkInitStruct->APB2CLKDivider));
-    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, ((RCC_ClkInitStruct->APB2CLKDivider) << 3U));
+    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, ((RCC_ClkInitStruct->APB2CLKDivider) << 3));
   }
  
   /* Update the SystemCoreClock global variable */
@@ -913,8 +913,8 @@ void HAL_RCC_DisableCSS(void)
   */
 uint32_t HAL_RCC_GetSysClockFreq(void)
 {
-  uint32_t tmpreg = 0U, prediv = 0U, pllclk = 0U, pllmul = 0U;
-  uint32_t sysclockfreq = 0U;
+  uint32_t tmpreg = 0, prediv = 0, pllclk = 0, pllmul = 0;
+  uint32_t sysclockfreq = 0;
   
   tmpreg = RCC->CFGR;
   
@@ -939,7 +939,7 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
       else
       {
         /* HSI used as PLL clock source : PLLCLK = HSI/2 * PLLMUL */
-        pllclk = (HSI_VALUE >> 1U) * pllmul;
+        pllclk = (HSI_VALUE >> 1) * pllmul;
       }
 #else
       if ((tmpreg & RCC_CFGR_PLLSRC_HSE_PREDIV) == RCC_CFGR_PLLSRC_HSE_PREDIV)
@@ -1118,7 +1118,7 @@ void HAL_RCC_GetClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, uint32_t *pF
   RCC_ClkInitStruct->APB1CLKDivider = (uint32_t)(RCC->CFGR & RCC_CFGR_PPRE1);   
   
   /* Get the APB2 configuration ----------------------------------------------*/ 
-  RCC_ClkInitStruct->APB2CLKDivider = (uint32_t)((RCC->CFGR & RCC_CFGR_PPRE2) >> 3U);
+  RCC_ClkInitStruct->APB2CLKDivider = (uint32_t)((RCC->CFGR & RCC_CFGR_PPRE2) >> 3);
   
   /* Get the Flash Wait State (Latency) configuration ------------------------*/   
   *pFLatency = (uint32_t)(FLASH->ACR & FLASH_ACR_LATENCY); 
