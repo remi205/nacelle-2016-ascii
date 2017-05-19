@@ -33,7 +33,7 @@ int InitConsole(UART_HandleTypeDef * SerialPort, COMMAND_FUNC fn )
   SemaphoreOutcommingString = osSemaphoreCreate(osSemaphore(SemaphoreOutcommingString), 1);  
   
   // le thread(
-  osThreadDef(ThreadSerialRx, (os_pthread)ThreadConsole, osPriorityLow, 0, 512);
+  osThreadDef(ThreadSerialRx, (os_pthread)ThreadConsole, osPriorityHigh, 0, 512);
 
   if ( osThreadCreate (osThread(ThreadSerialRx), (void *)fn) == NULL)
 	  return 0;
@@ -46,27 +46,38 @@ void ThreadConsole(COMMAND_FUNC fn)
   int ret = 0;
   COMMAND_FUNC Service = fn;
 
+#if 0
+
+  while ( 1) {
+	  WriteConsole("U1U0\n");
+	  osDelay(50);
+  }
+
+#else
   osSemaphoreWait(SemaphoreIncommingString, osWaitForever);
-     
+  gpio_set(LD3);
   while ( 1 )
     {
       // on re init sinon on ne recoit jamais une 2° commande. 
-      HAL_UART_Init(Console);
+     if ( HAL_UART_Init(Console) == HAL_OK) {
       memset(CommandLine, 0, 80);
-      gpio_set(LD3);
+
       ret = HAL_UART_Receive_DMA(Console, (unsigned char*)CommandLine, 80);
       
       // on attend une trame
       osSemaphoreWait(SemaphoreIncommingString, osWaitForever);
 
-      gpio_reset(LD3);
-      osDelay(500);
-      gpio_set(LD3);
+   //   gpio_reset(LD3);
+   //   osDelay(1);
+   //   gpio_set(LD3);
 
       // traite la demande
       CommandLine[strlen(CommandLine)-1] = 0;
       (*Service)(&CommandLine[1]);
-     }
+      osDelay(20);
+      }
+    }
+#endif
 }
 
 // retour soit : 0 ok, 1 
@@ -74,10 +85,10 @@ int WriteConsole(char * buffer)
 {
   int ret;
 
-  if ( HAL_UART_Transmit_IT(Console, (unsigned char*)buffer, strlen(buffer)) == HAL_OK)
+  if ( HAL_UART_Transmit_DMA(Console, (unsigned char*)buffer, strlen(buffer)) == HAL_OK)
     {
       // time out de 100 ms. 
-      ret = osSemaphoreWait(SemaphoreOutcommingString, 500);
+      ret = osSemaphoreWait(SemaphoreOutcommingString, 100);
       
       if ( ret == 1)
 	return 0;
