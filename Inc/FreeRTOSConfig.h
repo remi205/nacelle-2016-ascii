@@ -92,6 +92,7 @@
     #include "main.h" 
     extern uint32_t SystemCoreClock;
 #endif
+#define configUSE_TICKLESS_IDLE                  1
 
 #define configUSE_PREEMPTION                     1
 #define configSUPPORT_STATIC_ALLOCATION          0
@@ -163,6 +164,15 @@ standard names. */
 /* IMPORTANT: This define MUST be commented when used with STM32Cube firmware, 
               to prevent overwriting SysTick_Handler defined within STM32Cube HAL */
 /* #define xPortSysTickHandler SysTick_Handler */
+
+/* The configPRE_SLEEP_PROCESSING() and configPOST_SLEEP_PROCESSING() macros
+allow the application writer to add additional code before and after the MCU is
+placed into the low power state respectively. */
+#if configUSE_TICKLESS_IDLE == 1 
+#define configPRE_SLEEP_PROCESSING                        PreSleepProcessing
+#define configPOST_SLEEP_PROCESSING                       PostSleepProcessing
+#endif /* configUSE_TICKLESS_IDLE == 1 */
+
 
 /* USER CODE BEGIN Defines */   	      
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
