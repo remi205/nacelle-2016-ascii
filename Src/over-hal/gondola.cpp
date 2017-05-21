@@ -12,11 +12,14 @@
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim1;
 
+
+#define ratio_con
+
 /* Alimente en PWM avec un duty cycle de 0 à 100% les Leds 1 qui balisent le trou d'entrée de la lumière. */
 int gondola_led1(int ratio)
   {
     HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_4);
-    SetRatio(&htim1, TIM_CHANNEL_4, ratio);
+    SetRatio(&htim1, TIM_CHANNEL_4, (100 - ratio));
     HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
     return 0;
   }
@@ -25,7 +28,7 @@ int gondola_led1(int ratio)
 int gondola_led2(int ratio)
   {
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_2);
-    SetRatio(&htim3, TIM_CHANNEL_2, ratio);
+    SetRatio(&htim3, TIM_CHANNEL_2, (100 - ratio));
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
     return 0;
   }
@@ -34,7 +37,7 @@ int gondola_led2(int ratio)
 int gondola_led3(int ratio)
   {
     HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
-    SetRatio(&htim3, TIM_CHANNEL_1, ratio);
+    SetRatio(&htim3, TIM_CHANNEL_1, (100 - ratio));
     HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
     return 0;
   }

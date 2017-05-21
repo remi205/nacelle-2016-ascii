@@ -91,7 +91,7 @@ void MX_FREERTOS_Init(void) {
   TimerFrequency(&htim3, TIM_CHANNEL_2, 7999);
   TimerFrequency(&htim3, TIM_CHANNEL_3, 7999);
  
-#if 1
+#if 0
   SetRatio(&htim1, TIM_CHANNEL_4, 0);
   SetRatio(&htim3, TIM_CHANNEL_2, 0);
   SetRatio(&htim3, TIM_CHANNEL_3, 0);

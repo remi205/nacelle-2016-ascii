@@ -24,11 +24,17 @@ void TimerFrequency( TIM_HandleTypeDef *Timer, unsigned char Channel, unsigned i
 
 void SetRatio(TIM_HandleTypeDef *Timer, unsigned char Channel, int PerCent)
 {
+
+#if 1
   TIM_OC_InitTypeDef sConfigOC;
   
+
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = PerCent;
   HAL_TIM_PWM_ConfigChannel(Timer, &sConfigOC, Channel);
+#else
+  Timer->Instance->CCR1 = PerCent;
+#endif
 }
 
 
