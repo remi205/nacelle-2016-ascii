@@ -25,14 +25,14 @@ int ServiceStm32_Analyse(char* Input)
 
   char  resp[80];
 
-  // m_Parser contient les parametres du profile à appliquer
+  // m_Parser contient les parametres du profile Ã  appliquer
   char * input_buf =  m_Parser.GetString(0);
   bool SendResponse = true;
   bool Ack = false;
   float val;
 
   if ( ! strcmp(input_buf, "gondola-led1")) {
-    /* Alimente en PWM avec un duty cycle de 0 à 100% les Leds 1 qui balisent le trou d'entrée de la lumière. */
+    /* Alimente en PWM avec un duty cycle de 0 Ã  100% les Leds 1 qui balisent le trou d'entrÃ©e de la lumiÃ¨re. */
     int ratio;
     ratio = m_Parser.GetInteger(1);
     
@@ -40,7 +40,7 @@ int ServiceStm32_Analyse(char* Input)
     
     Ack = true;
   } else if ( ! strcmp(input_buf, "gondola-led2")) {
-    /* Alimente en PWM avec un duty cycle de 0 à 100% la Led 2 qui sert de reglage du renvoi coudé. */
+    /* Alimente en PWM avec un duty cycle de 0 Ã  100% la Led 2 qui sert de reglage du renvoi coudÃ©. */
     int ratio;
     ratio = m_Parser.GetInteger(1);
     
@@ -48,7 +48,7 @@ int ServiceStm32_Analyse(char* Input)
     
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-led3", 12)) {
-    /* Alimente en PWM avec un duty cycle de 0 à 100% la Led 3. */
+    /* Alimente en PWM avec un duty cycle de 0 Ã  100% la Led 3. */
     int ratio;
     ratio = m_Parser.GetInteger(1);
                
@@ -92,13 +92,13 @@ int ServiceStm32_Analyse(char* Input)
     
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-cameras-on", 18)) {
-    /* Alimente les caméra 'Champs','Pupille' et 'Ciel'. */
+    /* Alimente les camÃ©ra 'Champs','Pupille'. */
     
     status = gondola_camera_on();
     
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-cameras-off", 19)) {
-    /* Eteint les caméra 'Champs','Pupille' et 'Ciel'. */
+    /* Eteint les camÃ©ra 'Champs','Pupille'. */
     
     status = gondola_camera_off();
     
@@ -116,7 +116,7 @@ int ServiceStm32_Analyse(char* Input)
     
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-let-off-steam-on", 24)) {
-    /* Allume le systeme antibuée. WM lent */
+    /* Allume le systeme antibuÃ©e. WM lent */
     int ratio;
     ratio = m_Parser.GetInteger(1);
     
@@ -124,7 +124,7 @@ int ServiceStm32_Analyse(char* Input)
     
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-let-off-steam-off", 25)) {
-    /* Eteint le systeme antibuée. */
+    /* Eteint le systeme antibuÃ©e. */
     
     status = gondola_let_off_steam_off();
     
