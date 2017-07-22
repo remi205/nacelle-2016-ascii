@@ -9,10 +9,22 @@
 
 #define POWER_ALL_CAMERA  PA12
 #define POWER_ANTENNA     PB0
+
+
 #define POWER_FUBUTA      PF0
+#define POWER_SWITCH      PF0
+
+
+// #### 5V
 #define POWER_BANANA      PA8
+#define POWER_LASER       PA8
+
 #define POWER_FRANGEUR    PB1
+
+// #### 5V
 #define POWER_STEAM       PF1
+#define POWER_PESONS      PF1
+
 
 #define POWER_FRANGEUR_MOTOR PA6 // gondola-frangeur-motor
 #define POWER_FRANGEUR_CAM   PA5 // gondola-frangeur-camera

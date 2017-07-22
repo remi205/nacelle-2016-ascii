@@ -2922,21 +2922,10 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   */
 __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef* sConfig, uint32_t Channel)
 {
-  /* Check the parameters */
-  assert_param(IS_TIM_CHANNELS(Channel)); 
-  assert_param(IS_TIM_OC_MODE(sConfig->OCMode));
-  assert_param(IS_TIM_OC_POLARITY(sConfig->OCPolarity));
-  
-  /* Check input state */
-  __HAL_LOCK(htim); 
-  
-  htim->State = HAL_TIM_STATE_BUSY;
-  
   switch (Channel)
   {
     case TIM_CHANNEL_1:
     {
-      assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
       /* Configure the TIM Channel 1 in Output Compare */
       TIM_OC1_SetConfig(htim->Instance, sConfig);
     }
@@ -2944,7 +2933,6 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
     
     case TIM_CHANNEL_2:
     {
-      assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
       /* Configure the TIM Channel 2 in Output Compare */
       TIM_OC2_SetConfig(htim->Instance, sConfig);
     }
@@ -2952,7 +2940,6 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
     
     case TIM_CHANNEL_3:
     {
-       assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
       /* Configure the TIM Channel 3 in Output Compare */
       TIM_OC3_SetConfig(htim->Instance, sConfig);
     }
@@ -2960,7 +2947,6 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
     
     case TIM_CHANNEL_4:
     {
-      assert_param(IS_TIM_CC4_INSTANCE(htim->Instance));
        /* Configure the TIM Channel 4 in Output Compare */
        TIM_OC4_SetConfig(htim->Instance, sConfig);
     }
@@ -2969,10 +2955,6 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
     default:
     break;    
   }
-  htim->State = HAL_TIM_STATE_READY;
-  
-  __HAL_UNLOCK(htim); 
-  
   return HAL_OK;
 }
 
@@ -3087,21 +3069,10 @@ HAL_StatusTypeDef HAL_TIM_IC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_IC_InitT
   */
 __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef* sConfig, uint32_t Channel)
 {
-  __HAL_LOCK(htim);
-  
-  /* Check the parameters */ 
-  assert_param(IS_TIM_CHANNELS(Channel)); 
-  assert_param(IS_TIM_PWM_MODE(sConfig->OCMode));
-  assert_param(IS_TIM_OC_POLARITY(sConfig->OCPolarity));
-  assert_param(IS_TIM_FAST_STATE(sConfig->OCFastMode));
-  
-  htim->State = HAL_TIM_STATE_BUSY;
-    
   switch (Channel)
   {
     case TIM_CHANNEL_1:
     {
-      assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
       /* Configure the Channel 1 in PWM mode */
       TIM_OC1_SetConfig(htim->Instance, sConfig);
       
@@ -3116,7 +3087,6 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
     
     case TIM_CHANNEL_2:
     {
-      assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
       /* Configure the Channel 2 in PWM mode */
       TIM_OC2_SetConfig(htim->Instance, sConfig);
       
@@ -3131,7 +3101,6 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
     
     case TIM_CHANNEL_3:
     {
-      assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
       /* Configure the Channel 3 in PWM mode */
       TIM_OC3_SetConfig(htim->Instance, sConfig);
       
@@ -3146,7 +3115,6 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
     
     case TIM_CHANNEL_4:
     {
-      assert_param(IS_TIM_CC4_INSTANCE(htim->Instance));
       /* Configure the Channel 4 in PWM mode */
       TIM_OC4_SetConfig(htim->Instance, sConfig);
       
@@ -3162,10 +3130,6 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
     default:
     break;    
   }
-  
-  htim->State = HAL_TIM_STATE_READY;
-    
-  __HAL_UNLOCK(htim);
   
   return HAL_OK;
 }
@@ -3189,10 +3153,6 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
 {
   TIM_OC_InitTypeDef temp1;
   
-  /* Check the parameters */
-  assert_param(IS_TIM_OPM_CHANNELS(OutputChannel));
-  assert_param(IS_TIM_OPM_CHANNELS(InputChannel));
-
   if(OutputChannel != InputChannel)  
   {
   __HAL_LOCK(htim);
@@ -3208,79 +3168,71 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
   temp1.OCNIdleState = sConfig->OCNIdleState; 
     
     switch (OutputChannel)
-  {
-    case TIM_CHANNEL_1:
-    {
-        assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
-      
-      TIM_OC1_SetConfig(htim->Instance, &temp1); 
-    }
-    break;
-    case TIM_CHANNEL_2:
-    {
-        assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
-      
-      TIM_OC2_SetConfig(htim->Instance, &temp1);
-    }
-    break;
-    default:
-    break;  
-  } 
+      {
+      case TIM_CHANNEL_1:
+        TIM_OC1_SetConfig(htim->Instance, &temp1); 
+        break;
+      case TIM_CHANNEL_2:
+        TIM_OC2_SetConfig(htim->Instance, &temp1);
+        break;
+      default:
+        break;  
+      } 
     switch (InputChannel)
-  {
-    case TIM_CHANNEL_1:
-    {
-        assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
-      
-      TIM_TI1_SetConfig(htim->Instance, sConfig->ICPolarity,
-                        sConfig->ICSelection, sConfig->ICFilter);
-               
-    /* Reset the IC1PSC Bits */
-    htim->Instance->CCMR1 &= ~TIM_CCMR1_IC1PSC;
-
-    /* Select the Trigger source */
-        htim->Instance->SMCR &= ~TIM_SMCR_TS;
-    htim->Instance->SMCR |= TIM_TS_TI1FP1;
-      
-    /* Select the Slave Mode */      
-        htim->Instance->SMCR &= ~TIM_SMCR_SMS;
-    htim->Instance->SMCR |= TIM_SLAVEMODE_TRIGGER;
-    }
-    break;
-    case TIM_CHANNEL_2:
-    {
-        assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
-      
-      TIM_TI2_SetConfig(htim->Instance, sConfig->ICPolarity,
-                 sConfig->ICSelection, sConfig->ICFilter);
-               
-      /* Reset the IC2PSC Bits */
-        htim->Instance->CCMR1 &= ~TIM_CCMR1_IC2PSC;
- 
-      /* Select the Trigger source */
-        htim->Instance->SMCR &= ~TIM_SMCR_TS;
-      htim->Instance->SMCR |= TIM_TS_TI2FP2;
-      
-      /* Select the Slave Mode */      
-        htim->Instance->SMCR &= ~TIM_SMCR_SMS;
-      htim->Instance->SMCR |= TIM_SLAVEMODE_TRIGGER;
-    }
-    break;
+      {
+      case TIM_CHANNEL_1:
+        {
+          assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
+          
+          TIM_TI1_SetConfig(htim->Instance, sConfig->ICPolarity,
+                            sConfig->ICSelection, sConfig->ICFilter);
+          
+          /* Reset the IC1PSC Bits */
+          htim->Instance->CCMR1 &= ~TIM_CCMR1_IC1PSC;
+          
+          /* Select the Trigger source */
+          htim->Instance->SMCR &= ~TIM_SMCR_TS;
+          htim->Instance->SMCR |= TIM_TS_TI1FP1;
+          
+          /* Select the Slave Mode */      
+          htim->Instance->SMCR &= ~TIM_SMCR_SMS;
+          htim->Instance->SMCR |= TIM_SLAVEMODE_TRIGGER;
+        }
+        break;
+      case TIM_CHANNEL_2:
+        {
+          assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
+          
+          TIM_TI2_SetConfig(htim->Instance, sConfig->ICPolarity,
+                            sConfig->ICSelection, sConfig->ICFilter);
+          
+          /* Reset the IC2PSC Bits */
+          htim->Instance->CCMR1 &= ~TIM_CCMR1_IC2PSC;
+          
+          /* Select the Trigger source */
+          htim->Instance->SMCR &= ~TIM_SMCR_TS;
+          htim->Instance->SMCR |= TIM_TS_TI2FP2;
+          
+          /* Select the Slave Mode */      
+          htim->Instance->SMCR &= ~TIM_SMCR_SMS;
+          htim->Instance->SMCR |= TIM_SLAVEMODE_TRIGGER;
+        }
+        break;
+        
+      default:
+        break;  
+      }
     
-    default:
-    break;  
-  }
-  
-  htim->State = HAL_TIM_STATE_READY;
+    htim->State = HAL_TIM_STATE_READY;
     
-  __HAL_UNLOCK(htim);
-  
-  return HAL_OK;
-} 
+    __HAL_UNLOCK(htim);
+    
+    return HAL_OK;
+  } 
   else
-  {
-    return HAL_ERROR;
-  }
+    {
+      return HAL_ERROR;
+    }
 } 
 
 /**
@@ -4619,9 +4571,6 @@ void TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
 
   if(IS_TIM_CCXN_INSTANCE(TIMx, TIM_CHANNEL_1))
   {
-    /* Check parameters */
-    assert_param(IS_TIM_OCN_POLARITY(OC_Config->OCNPolarity));
- 
     /* Reset the Output N Polarity level */
     tmpccer &= ~TIM_CCER_CC1NP;
     /* Set the Output N Polarity */
@@ -4632,10 +4581,6 @@ void TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
   
   if(IS_TIM_BREAK_INSTANCE(TIMx))
   {
-    /* Check parameters */
-    assert_param(IS_TIM_OCNIDLE_STATE(OC_Config->OCNIdleState));
-    assert_param(IS_TIM_OCIDLE_STATE(OC_Config->OCIdleState));
-
     /* Reset the Output Compare and Output Compare N IDLE State */
     tmpcr2 &= ~TIM_CR2_OIS1;
     tmpcr2 &= ~TIM_CR2_OIS1N;

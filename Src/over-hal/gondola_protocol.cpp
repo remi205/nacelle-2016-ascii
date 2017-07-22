@@ -187,6 +187,30 @@ int ServiceStm32_Analyse(char* Input)
   } else if  ( ! strncmp(input_buf, "gondola-frangeur-motor-off", 26)) {
       status = gondola_frangeur_motor_off();
       Ack = true;
+
+  } else if  ( ! strncmp(input_buf, "gondola_lan_switch_on", 21)) {
+      status = gondola_lan_switch_on();
+      Ack = true;
+  }
+  else if  ( ! strncmp(input_buf, "gondola_lan_switch_off", 22)) {
+      status = gondola_lan_switch_off();
+      Ack = true;
+  }
+  else if  ( ! strncmp(input_buf, "gondola_laser_on", 16)) {
+    status = gondola_laser_on();
+    Ack = true;
+  }
+  else if  ( ! strncmp(input_buf, "gondola_laser_off", 17)) {
+    status = gondola_laser_off();
+    Ack = true;
+  }
+  else if  ( ! strncmp(input_buf, "gondola_pesons_on", 26)) {
+    status = gondola_laser_on();
+    Ack = true;
+  }
+  else if  ( ! strncmp(input_buf, "gondola_pesons_off", 26)) {
+    status = gondola_laser_off();
+    Ack = true;
   }
 
   if ( SendResponse && !Ack)

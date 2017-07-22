@@ -56,6 +56,20 @@ int gondola_bananapi_off()
   return 0;
   }
 
+/* Allume la carte banana pi. */
+int gondola_laser_on()
+  {
+   gpio_set(POWER_LASER);
+   return 0;
+  }
+
+/* Eteint la carte banana pi. */
+int gondola_laser_off()
+  {
+  gpio_reset(POWER_LASER);
+  return 0;
+  }
+
 /* Allume le frangeur. */
 int gondola_frangeur_on()
   {
@@ -86,6 +100,20 @@ int gondola_receiver_rc_off()
     
   }
 
+/* Allume l'alimentation du recepteur du switch. */
+int gondola_lan_switch_on()
+  {
+    gpio_set(POWER_SWITCH);
+    return 0;
+  }
+
+/* Allume l'alimentation du recepteur de switch. */
+int gondola_lan_switch_off()
+  {
+    gpio_reset(POWER_SWITCH);
+    return 0;
+  }
+
 /* Alimente les caméra 'Champs','Pupille' et 'Ciel'. */
 int gondola_camera_on()
   {
@@ -97,8 +125,7 @@ int gondola_camera_on()
 int gondola_camera_off()
   {
     gpio_reset(POWER_ALL_CAMERA);
-        return 0;
-
+    return 0;
   }
 
 /* Allume l'antenne active Wifi. */
@@ -126,6 +153,20 @@ int gondola_let_off_steam_on(int ratio)
 int gondola_let_off_steam_off()
   {
     gpio_reset(POWER_STEAM);
+    return 0;
+  }
+
+/* Allume les pesons */
+int gondola_pesons_on()
+  {
+    gpio_set(POWER_PESONS);
+    return 0;
+  }
+
+/* Eteint les pesons. */
+int gondola_pesons_off()
+  {
+    gpio_reset(POWER_PESONS);
     return 0;
   }
 

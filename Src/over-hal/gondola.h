@@ -21,6 +21,13 @@ int gondola_frangeur_camera_off();
 int gondola_frangeur_motor_on();
 int gondola_frangeur_motor_off();
 
+// Juillet 2017
+int gondola_lan_switch_on();
+int gondola_lan_switch_off();
+int gondola_laser_on();
+int gondola_laser_off();
+int gondola_pesons_on();
+int gondola_pesons_off();
 
 float gondola_west_gauge();
 float gondola_south_4_gauge();
