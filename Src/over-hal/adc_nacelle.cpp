@@ -16,6 +16,8 @@ void adc_init()
 {
     // le semaphore rx 
   SemaphoreIncommingValue = osSemaphoreCreate(osSemaphore(SemaphoreIncommingValue), 1);  
+  osSemaphoreWait(SemaphoreIncommingValue, (1));
+
 }
 
 unsigned long adc_get_value(ADC_HandleTypeDef *adc)
@@ -27,7 +29,7 @@ unsigned long adc_get_value(ADC_HandleTypeDef *adc)
       if ( HAL_ADC_Start_IT(adc) == HAL_OK )
         {
           // on attend une trame pendent 20 ms
-          osSemaphoreWait(SemaphoreIncommingValue, 20);
+          osSemaphoreWait(SemaphoreIncommingValue, 200);
           data += HAL_ADC_GetValue(adc);
           HAL_ADC_Stop_IT(adc);
         }
