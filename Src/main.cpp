@@ -52,7 +52,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+extern int ServiceStm32_Analyse(char* Input);
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -103,6 +103,11 @@ int main(void)
   //MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
+#if 0
+  float v = 12.258;
+  char buffer[20];
+  sprintf(buffer,"U1 %f\n", v);
+#endif
 
   /* USER CODE END 2 */
 

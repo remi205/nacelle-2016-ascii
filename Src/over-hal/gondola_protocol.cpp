@@ -75,9 +75,7 @@ int ServiceStm32_Analyse(char* Input)
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-frangeur-off", 20)) {
     /* Eteint le frangeur. */
-    
     status = gondola_frangeur_off();
-    
     Ack = true;
   } else if ( ! strncmp(input_buf, "gondola-receiver-rc-on", 22)) {
     /* Allume l'alimentation du recepteur de Radio commande. */
@@ -188,27 +186,27 @@ int ServiceStm32_Analyse(char* Input)
       status = gondola_frangeur_motor_off();
       Ack = true;
 
-  } else if  ( ! strncmp(input_buf, "gondola_lan_switch_on", 21)) {
+  } else if  ( ! strncmp(input_buf, "gondola-lan-switch-on", 21)) {
       status = gondola_lan_switch_on();
       Ack = true;
   }
-  else if  ( ! strncmp(input_buf, "gondola_lan_switch_off", 22)) {
+  else if  ( ! strncmp(input_buf, "gondola-lan-switch-off", 22)) {
       status = gondola_lan_switch_off();
       Ack = true;
   }
-  else if  ( ! strncmp(input_buf, "gondola_laser_on", 16)) {
+  else if  ( ! strncmp(input_buf, "gondola-laser-on", 16)) {
     status = gondola_laser_on();
     Ack = true;
   }
-  else if  ( ! strncmp(input_buf, "gondola_laser_off", 17)) {
+  else if  ( ! strncmp(input_buf, "gondola-laser-off", 17)) {
     status = gondola_laser_off();
     Ack = true;
   }
-  else if  ( ! strncmp(input_buf, "gondola_pesons_on", 26)) {
+  else if  ( ! strncmp(input_buf, "gondola-pesons-power-on", 23)) {
     status = gondola_laser_on();
     Ack = true;
   }
-  else if  ( ! strncmp(input_buf, "gondola_pesons_off", 26)) {
+  else if  ( ! strncmp(input_buf, "gondola-pesons-power-off", 24)) {
     status = gondola_laser_off();
     Ack = true;
   }

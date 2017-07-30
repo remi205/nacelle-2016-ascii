@@ -105,7 +105,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-#if 0
+#if 1
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 #endif
@@ -120,12 +120,14 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
     osDelay(1000);
-#if 0   
+#if 1
     float m, n;
     
     m = 1.0 * get_battery_high_voltage();
     n = 1.0 * get_battery_low_voltage();
     m += n;
+ //   ServiceStm32_Analyse("gondola-voltage-battery-high");
+
 
 #endif  
     
@@ -134,10 +136,8 @@ void StartDefaultTask(void const * argument)
 //    osDelay(2000);
 //    ServiceStm32_Analyse("gondola-led1 0");
 #endif
-    
   }  
-    osDelay(100);
-  }
+}
   /* USER CODE END StartDefaultTask */
 
 

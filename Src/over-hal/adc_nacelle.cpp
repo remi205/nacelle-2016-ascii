@@ -24,12 +24,11 @@ unsigned long adc_get_value(ADC_HandleTypeDef *adc)
  
   for ( int i = 0 ; i < LENGTH; i++)
     {
-      data_ready = 0;
       if ( HAL_ADC_Start_IT(adc) == HAL_OK )
         {
           // on attend une trame pendent 20 ms
-           osSemaphoreWait(SemaphoreIncommingValue, 20);
-           data += HAL_ADC_GetValue(adc);
+          osSemaphoreWait(SemaphoreIncommingValue, 20);
+          data += HAL_ADC_GetValue(adc);
           HAL_ADC_Stop_IT(adc);
         }
     }
@@ -46,48 +45,38 @@ float get_peson1()
 {
 	ADC_ChannelConfTypeDef adc_conf;
 	adc_conf.Channel = ADC_CHANNEL_1;
+    adc_conf.Rank = 1;
+    adc_conf.SingleDiff = ADC_SINGLE_ENDED;
+    adc_conf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+    adc_conf.OffsetNumber = ADC_OFFSET_NONE;
+    adc_conf.Offset = 0;
 	HAL_ADC_ConfigChannel( &hadc1, &adc_conf);
 	return 1.001 * adc_get_value(&hadc1);
 }
-
 
 float get_peson2()
 {
 	ADC_ChannelConfTypeDef adc_conf;
 	adc_conf.Channel = ADC_CHANNEL_2;
+    adc_conf.Rank = 1;
+    adc_conf.SingleDiff = ADC_SINGLE_ENDED;
+    adc_conf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+    adc_conf.OffsetNumber = ADC_OFFSET_NONE;
+    adc_conf.Offset = 0;
 	HAL_ADC_ConfigChannel( &hadc1, &adc_conf);
 	return 0.99 * adc_get_value(&hadc1);
 }
-
-
-float get_peson3()
-{
-	ADC_ChannelConfTypeDef adc_conf;
-	adc_conf.Channel = ADC_CHANNEL_4;
-	HAL_ADC_ConfigChannel( &hadc1, &adc_conf);
-	return 1.001 * adc_get_value(&hadc1);
-}
-
-
-float get_peson4()
-{
-	ADC_ChannelConfTypeDef adc_conf;
-	adc_conf.Channel = ADC_CHANNEL_1;
-	HAL_ADC_ConfigChannel( &hadc2, &adc_conf);
-	return 1.001 * adc_get_value(&hadc2);
-}
-
 
 float get_battery_low_voltage()
 {
 	ADC_ChannelConfTypeDef adc_conf;
         
 	adc_conf.Channel = ADC_CHANNEL_3;
-        adc_conf.Rank = 1;
-        adc_conf.SingleDiff = ADC_SINGLE_ENDED;
-        adc_conf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-        adc_conf.OffsetNumber = ADC_OFFSET_NONE;
-        adc_conf.Offset = 0;
+    adc_conf.Rank = 1;
+    adc_conf.SingleDiff = ADC_SINGLE_ENDED;
+    adc_conf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+    adc_conf.OffsetNumber = ADC_OFFSET_NONE;
+    adc_conf.Offset = 0;
 
 	HAL_ADC_ConfigChannel( &hadc1, &adc_conf);
 	return 0.0024912258 * adc_get_value(&hadc1);
@@ -112,7 +101,14 @@ float get_test_adc()
 {
 	ADC_ChannelConfTypeDef adc_conf;
 	adc_conf.Channel = ADC_CHANNEL_4;
-	HAL_ADC_ConfigChannel( &hadc1, &adc_conf);
+        
+        adc_conf.Rank = 1;
+        adc_conf.SingleDiff = ADC_SINGLE_ENDED;
+        adc_conf.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+        adc_conf.OffsetNumber = ADC_OFFSET_NONE;
+        adc_conf.Offset = 0;  
+        
+	HAL_ADC_ConfigChannel(&hadc2, &adc_conf);
 	return 1.0 * adc_get_value(&hadc1);
 }
 
