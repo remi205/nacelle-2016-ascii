@@ -85,7 +85,11 @@ void MX_FREERTOS_Init(void) {
 
   gpio_direction(POWER_FRANGEUR_CAM, OUTPUT);
   gpio_direction(POWER_FRANGEUR_MOTOR, OUTPUT);
-    
+
+  gpio_direction(POWER_SWITCH, OUTPUT);
+  gpio_direction(POWER_LASER, OUTPUT);
+  gpio_direction(POWER_PESONS, OUTPUT);
+
   // Led in pwm mode
   TimerFrequency(&htim1, TIM_CHANNEL_4, 7999);
   TimerFrequency(&htim3, TIM_CHANNEL_2, 7999);
@@ -105,12 +109,13 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-#if 1
+#if 0
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 #endif
 }
 
+#if 0
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
@@ -120,24 +125,13 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
     osDelay(1000);
-#if 1
+
     float m, n;
     
     m = 1.0 * get_battery_high_voltage();
     n = 1.0 * get_battery_low_voltage();
     m += n;
  //   ServiceStm32_Analyse("gondola-voltage-battery-high");
-
-
-#endif  
-    
-#if 1
-//    ServiceStm32_Analyse("gondola-led1 100");
-//    osDelay(2000);
-//    ServiceStm32_Analyse("gondola-led1 0");
-#endif
-  }  
+  }
 }
-  /* USER CODE END StartDefaultTask */
-
-
+#endif

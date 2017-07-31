@@ -177,24 +177,6 @@ float gondola_west_gauge()
   }
 
 /* Retourne la valeur de la mesure. */
-float gondola_south_4_gauge()
-  {
-    return get_peson4();
-  }
-
-/* Retourne la valeur de la mesure. */
-float gondola_south_5_gauge()
-  {
-    return get_peson5();
-  }
-
-/* Retourne la valeur de la mesure. */
-float gondola_south_6_gauge()
-  {
-    return get_peson6();
-  }
-
-/* Retourne la valeur de la mesure. */
 float  gondola_east_low_gauge()
   {
      return get_peson2();

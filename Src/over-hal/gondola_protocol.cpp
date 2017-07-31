@@ -203,11 +203,11 @@ int ServiceStm32_Analyse(char* Input)
     Ack = true;
   }
   else if  ( ! strncmp(input_buf, "gondola-pesons-power-on", 23)) {
-    status = gondola_laser_on();
+    status = gondola_pesons_on();
     Ack = true;
   }
   else if  ( ! strncmp(input_buf, "gondola-pesons-power-off", 24)) {
-    status = gondola_laser_off();
+    status = gondola_pesons_off();
     Ack = true;
   }
 

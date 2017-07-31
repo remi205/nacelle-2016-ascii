@@ -64,6 +64,7 @@ void MX_ADC1_Init(void)
 void MX_ADC2_Init(void)
 {
   ADC_ChannelConfTypeDef sConfig;
+  ADC_MultiModeTypeDef multimode;
 
     /**Common config 
     */
@@ -82,6 +83,15 @@ void MX_ADC2_Init(void)
   hadc2.Init.LowPowerAutoWait = DISABLE;
   hadc2.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+    /**Configure the ADC multi-mode 
+    */
+
+  multimode.Mode = ADC_MODE_INDEPENDENT;
+  if (HAL_ADCEx_MultiModeConfigChannel(&hadc2, &multimode) != HAL_OK)
   {
     Error_Handler();
   }
